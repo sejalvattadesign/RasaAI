@@ -169,4 +169,4 @@ build/
 
 # Large Data Files
 data/raw/
-data/processed/
+!data/processed/zomato_cleaned.csv
