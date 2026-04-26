@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 2 - User Preferences</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; max-width: 860px; }
+    h1 { margin-bottom: 0.4rem; }
+    p { color: #444; }
+    form { display: grid; gap: 0.9rem; margin-top: 1.5rem; }
+    label { font-weight: 600; }
+    input, select, textarea, button {
+      width: 100%; padding: 0.6rem; font-size: 0.95rem; box-sizing: border-box;
+    }
+    button {
+      width: auto; cursor: pointer; background: #2563eb; color: #fff; border: none;
+      border-radius: 6px; padding: 0.6rem 1rem;
+    }
+    .hint { font-size: 0.85rem; color: #666; }
+    pre {
+      margin-top: 1.2rem; background: #0b1020; color: #b9ffcf; padding: 1rem;
+      border-radius: 8px; overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Restaurant Preference Input (Phase 2)</h1>
+  <p>Basic web UI form for collecting and validating user preferences.</p>
+
+  <form id="prefForm">
+    <div>
+      <label for="location">Location</label>
+      <input id="location" name="location" type="text" placeholder="e.g., Bangalore" required>
+    </div>
+
+    <div>
+      <label for="budget">Budget</label>
+      <select id="budget" name="budget" required>
+        <option value="">Select budget</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="cuisines">Cuisines</label>
+      <input id="cuisines" name="cuisines" type="text" placeholder="Italian, Chinese" required>
+      <div class="hint">Comma-separated, max 5 cuisines.</div>
+    </div>
+
+    <div>
+      <label for="min_rating">Minimum Rating (0-5)</label>
+      <input id="min_rating" name="min_rating" type="number" min="0" max="5" step="0.1" value="3.5" required>
+    </div>
+
+    <div>
+      <label for="additional_preferences">Additional Preferences</label>
+      <input id="additional_preferences" name="additional_preferences" type="text" placeholder="family-friendly, quick service">
+      <div class="hint">Optional comma-separated preferences.</div>
+    </div>
+
+    <div>
+      <label for="max_results">Max Results</label>
+      <input id="max_results" name="max_results" type="number" min="1" max="20" value="5">
+    </div>
+
+    <button type="submit">Validate Preferences</button>
+  </form>
+
+  <pre id="result">Submit the form to see validated JSON.</pre>
+
+  <script>
+    const form = document.getElementById("prefForm");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const body = new FormData(form);
+      const response = await fetch("/submit-preferences", {
+        method: "POST",
+        body
+      });
+      const data = await response.json();
+      result.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
+

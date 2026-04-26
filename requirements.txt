@@ -1,0 +1,6 @@
+pandas
+datasets
+pyarrow
+Flask
+jsonschema
+pytest
